@@ -1,3 +1,5 @@
+import { EditorPage } from "@/pages/editor"
+
 export function App() {
-  return <main className="min-h-svh" />
+  return <EditorPage />
 }

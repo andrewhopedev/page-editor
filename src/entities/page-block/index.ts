@@ -4,6 +4,7 @@ export type {
   PageBlock,
   PageBlockType,
 } from "./model/types"
+export { BLOCK_TYPE_LABEL } from "./model/blockTypeLabel"
 export { PageCanvas } from "./ui/PageCanvas/PageCanvas"
 export { createBlock } from "./lib/createBlock"
 export { duplicateBlock } from "./lib/duplicateBlock"
