@@ -43,18 +43,18 @@ export function createDocumentSync(api: SaveApi): DocumentSync {
 
   async function run(): Promise<void> {
     const sync = useSyncStore.getState()
-    const document = useDocumentStore.getState()
+    const documentState = useDocumentStore.getState()
 
     if (inFlight || sync.conflict !== null) {
       return
     }
 
-    if (document.revision === sync.savedRevision) {
+    if (documentState.revision === sync.savedRevision) {
       return
     }
 
-    const sentRevision = document.revision
-    const blocks = selectBlocks(document)
+    const sentRevision = documentState.revision
+    const blocks = selectBlocks(documentState)
     const force = sync.consumeForce()
 
     inFlight = true

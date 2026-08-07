@@ -16,12 +16,12 @@ export function useHistoryHotkeys(): void {
       event.preventDefault()
       event.stopPropagation()
 
-      const document = useDocumentStore.getState()
+      const { undo, redo } = useDocumentStore.getState()
 
       if (event.code === "KeyY" || event.shiftKey) {
-        document.redo()
+        redo()
       } else {
-        document.undo()
+        undo()
       }
     }
 

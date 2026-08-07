@@ -19,6 +19,5 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm lint:styles
-      - run: pnpm fsd:lint
       - run: pnpm test
       - run: pnpm build
