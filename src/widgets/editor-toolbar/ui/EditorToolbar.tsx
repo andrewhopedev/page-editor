@@ -7,6 +7,7 @@ import {
   useDocumentStore,
   useSyncStore,
 } from "@/entities/page-document"
+import { documentSync } from "@/features/document-sync"
 import { usePreviewModeStore } from "@/features/preview-mode"
 import { Button } from "@/shared/ui/button"
 import { Separator } from "@/shared/ui/separator"
@@ -49,6 +50,12 @@ export function EditorToolbar() {
       <span aria-live="polite" className={styles.status}>
         {SAVE_STATUS_LABEL[status]}
       </span>
+
+      {status === "error" && (
+        <Button variant="outline" size="sm" onClick={documentSync.flush}>
+          Повторить
+        </Button>
+      )}
 
       <Button
         variant="outline"

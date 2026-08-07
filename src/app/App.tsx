@@ -1,5 +1,11 @@
 import { EditorPage } from "@/pages/editor"
 
+import { DocumentSyncProvider } from "./DocumentSyncProvider"
+
 export function App() {
-  return <EditorPage />
+  return (
+    <DocumentSyncProvider>
+      <EditorPage />
+    </DocumentSyncProvider>
+  )
 }

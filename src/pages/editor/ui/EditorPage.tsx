@@ -1,3 +1,4 @@
+import { useHistoryHotkeys } from "@/features/history-navigation"
 import { usePreviewModeStore } from "@/features/preview-mode"
 import { BlockInspector } from "@/widgets/block-inspector"
 import { BlockPalette } from "@/widgets/block-palette"
@@ -9,6 +10,8 @@ import styles from "./EditorPage.module.scss"
 
 export function EditorPage() {
   const isPreviewOpen = usePreviewModeStore((state) => state.isOpen)
+
+  useHistoryHotkeys()
 
   if (isPreviewOpen) {
     return <PagePreview />
