@@ -114,7 +114,7 @@ export function ConflictDialog() {
         }
       }}
     >
-      <DialogContent className={styles.content}>
+      <DialogContent className={styles.content} showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>Документ изменился на сервере</DialogTitle>
           <DialogDescription>
@@ -135,6 +135,9 @@ export function ConflictDialog() {
         </div>
 
         <DialogFooter>
+          <Button variant="ghost" onClick={close}>
+            Закрыть
+          </Button>
           <Button
             variant="outline"
             onClick={() => {

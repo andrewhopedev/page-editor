@@ -29,8 +29,8 @@ export function BlockCard({ block, position }: BlockCardProps) {
             select(block.id)
           }}
         >
-          <span className={styles.position}>{position}. </span>
-          {BLOCK_TYPE_LABEL[block.type]}
+          <span className={styles.position}>{position}</span>
+          {`. ${BLOCK_TYPE_LABEL[block.type]}`}
         </button>
 
         <Button
