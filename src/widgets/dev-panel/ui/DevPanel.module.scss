@@ -1,0 +1,44 @@
+.panel {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  width: 17rem;
+  flex-direction: column;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
+  gap: 0.75rem;
+}
+
+.toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.control {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}

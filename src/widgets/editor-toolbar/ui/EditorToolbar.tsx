@@ -7,6 +7,7 @@ import {
   useDocumentStore,
   useSyncStore,
 } from "@/entities/page-document"
+import { useConflictDialogStore } from "@/features/conflict-resolution"
 import { documentSync } from "@/features/document-sync"
 import { usePreviewModeStore } from "@/features/preview-mode"
 import { Button } from "@/shared/ui/button"
@@ -21,6 +22,7 @@ export function EditorToolbar() {
   const redo = useDocumentStore((state) => state.redo)
   const status = useSyncStore((state) => state.status)
   const openPreview = usePreviewModeStore((state) => state.open)
+  const openConflict = useConflictDialogStore((state) => state.open)
 
   return (
     <header className={styles.toolbar}>
@@ -54,6 +56,12 @@ export function EditorToolbar() {
       {status === "error" && (
         <Button variant="outline" size="sm" onClick={documentSync.flush}>
           Повторить
+        </Button>
+      )}
+
+      {status === "conflict" && (
+        <Button variant="outline" size="sm" onClick={openConflict}>
+          Разрешить
         </Button>
       )}
 

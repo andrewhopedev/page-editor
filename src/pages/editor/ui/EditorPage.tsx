@@ -3,6 +3,7 @@ import { usePreviewModeStore } from "@/features/preview-mode"
 import { BlockInspector } from "@/widgets/block-inspector"
 import { BlockPalette } from "@/widgets/block-palette"
 import { BlockStructure } from "@/widgets/block-structure"
+import { DevPanel } from "@/widgets/dev-panel"
 import { EditorToolbar } from "@/widgets/editor-toolbar"
 import { PagePreview } from "@/widgets/page-preview"
 
@@ -26,6 +27,8 @@ export function EditorPage() {
         <BlockStructure />
         <BlockInspector />
       </div>
+
+      <DevPanel />
     </div>
   )
 }

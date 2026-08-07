@@ -163,11 +163,44 @@ describe("document sync", () => {
 
     savePage.mockResolvedValue(serverDocument(6, initial))
     useSyncStore.getState().resolveWithLocal(5)
-    sync.flush()
     await vi.advanceTimersByTimeAsync(0)
 
     expect(savePage).toHaveBeenCalledTimes(2)
     expect(savePage.mock.calls[1][0]).toMatchObject({ force: true, version: 5 })
+  })
+
+  it("does not send anything after accepting the server version", async () => {
+    savePage.mockRejectedValueOnce(
+      new ConflictError(serverDocument(5, initial))
+    )
+
+    edit("Правка")
+    await vi.advanceTimersByTimeAsync(AUTOSAVE_DEBOUNCE_MS)
+
+    const server = [textBlock("a", "Серверный текст")]
+    useDocumentStore.getState().applyBlocks(server)
+    useSyncStore
+      .getState()
+      .resolveWithServer(5, useDocumentStore.getState().revision)
+    await vi.advanceTimersByTimeAsync(AUTOSAVE_DEBOUNCE_MS * 3)
+
+    expect(savePage).toHaveBeenCalledTimes(1)
+    expect(useSyncStore.getState().status).toBe("saved")
+  })
+
+  it("does not treat a re-initialised store as a resolved conflict", async () => {
+    savePage.mockRejectedValueOnce(
+      new ConflictError(serverDocument(5, initial))
+    )
+
+    edit("Правка")
+    await vi.advanceTimersByTimeAsync(AUTOSAVE_DEBOUNCE_MS)
+    expect(useSyncStore.getState().status).toBe("conflict")
+
+    useSyncStore.getState().initialize(5)
+    await vi.advanceTimersByTimeAsync(AUTOSAVE_DEBOUNCE_MS * 3)
+
+    expect(savePage).toHaveBeenCalledTimes(1)
   })
 
   it("stops on an error and does not retry by itself", async () => {

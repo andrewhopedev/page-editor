@@ -30,21 +30,6 @@ function errorMessage(error: unknown): string {
     : "Не удалось сохранить страницу"
 }
 
-/**
- * Движок живёт вне React и держит два инварианта.
- *
- * Первый: на документ одновременно выполняется только один запрос - флаг
- * inFlight. Накопившиеся за время запроса правки уходят сразу после ответа, без
- * повторного ожидания дебаунса: 700мс уже отработали
- *
- * Второй: ответ никогда не перезаписывает локальные блоки. Сохранённой
- * считается отправленная ревизия, а не текущая, поэтому набранное во время
- * запроса остаётся грязным и уедет следующим запросом
- *
- * Конфликт замораживает цикл: до решения пользователя новые запросы не уходят,
- * иначе сервер будет отвечать 409 бесконечно. Ошибка цикл останавливает -
- * автоповтора нет, повтор запускает пользователь через flush
- */
 export function createDocumentSync(api: SaveApi): DocumentSync {
   let timer: ReturnType<typeof setTimeout> | null = null
   let inFlight = false
@@ -124,7 +109,7 @@ export function createDocumentSync(api: SaveApi): DocumentSync {
 
   return {
     start() {
-      return useDocumentStore.subscribe((state, previous) => {
+      const stopDocument = useDocumentStore.subscribe((state, previous) => {
         if (state.revision === previous.revision) {
           return
         }
@@ -143,6 +128,17 @@ export function createDocumentSync(api: SaveApi): DocumentSync {
 
         schedule()
       })
+
+      const stopSync = useSyncStore.subscribe((state, previous) => {
+        if (!previous.pendingForce && state.pendingForce) {
+          void run()
+        }
+      })
+
+      return () => {
+        stopDocument()
+        stopSync()
+      }
     },
 
     flush() {
