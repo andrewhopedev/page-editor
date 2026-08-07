@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, type ReactNode } from "react"
 
 import {
   BLOCK_TYPE_LABEL,
@@ -14,6 +14,7 @@ import {
 } from "@/entities/page-document"
 import { assertNever } from "@/shared/lib/assertNever"
 import { cn } from "@/shared/lib/cn"
+import { Badge } from "@/shared/ui/badge"
 import { Button } from "@/shared/ui/button"
 import {
   Dialog,
@@ -39,6 +40,20 @@ const DIFF_LABEL: Record<BlockDiffStatus, string> = {
   moved: "переставлен",
 }
 
+const DIFF_ROW: Record<BlockDiffStatus, string> = {
+  same: "",
+  changed: styles.changed,
+  added: styles.added,
+  moved: styles.moved,
+}
+
+const DIFF_BADGE: Record<BlockDiffStatus, string> = {
+  same: "",
+  changed: styles.badgeChanged,
+  added: styles.badgeAdded,
+  moved: styles.badgeMoved,
+}
+
 function summarize(block: PageBlock): string {
   switch (block.type) {
     case "text":
@@ -52,35 +67,47 @@ function summarize(block: PageBlock): string {
   }
 }
 
-function BlockDiffList({
+function VersionColumn({
   title,
+  version,
   entries,
+  action,
 }: {
   title: string
+  version: string
   entries: BlockDiffEntry[]
+  action: ReactNode
 }) {
   return (
-    <section className={styles.side}>
-      <h3 className={styles.sideTitle}>{title}</h3>
+    <section className={styles.column}>
+      <header className={styles.columnHead}>
+        <h3 className={styles.columnTitle}>{title}</h3>
+        <Badge variant="outline">{version}</Badge>
+      </header>
 
       {entries.length === 0 ? (
         <p className={styles.empty}>Блоков нет</p>
       ) : (
         <ol className={styles.list}>
           {entries.map(({ block, status }) => (
-            <li
-              key={block.id}
-              className={cn(styles.row, status !== "same" && styles.changed)}
-            >
-              <span className={styles.head}>
-                {BLOCK_TYPE_LABEL[block.type]}
-                <span className={styles.status}>{DIFF_LABEL[status]}</span>
+            <li key={block.id} className={cn(styles.row, DIFF_ROW[status])}>
+              <span className={styles.rowHead}>
+                <span className={styles.rowType}>
+                  {BLOCK_TYPE_LABEL[block.type]}
+                </span>
+                {status !== "same" && (
+                  <Badge variant="outline" className={DIFF_BADGE[status]}>
+                    {DIFF_LABEL[status]}
+                  </Badge>
+                )}
               </span>
               <span className={styles.summary}>{summarize(block)}</span>
             </li>
           ))}
         </ol>
       )}
+
+      <div className={styles.action}>{action}</div>
     </section>
   )
 }
@@ -124,36 +151,44 @@ export function ConflictDialog() {
         </DialogHeader>
 
         <div className={styles.columns}>
-          <BlockDiffList
-            title={`Ваша версия, на основе ${baseVersion}`}
+          <VersionColumn
+            title="Ваша версия"
+            version={`на основе ${baseVersion}`}
             entries={diff.local}
+            action={
+              <Button
+                className={styles.fullWidth}
+                onClick={() => {
+                  overwriteWithLocalVersion()
+                  close()
+                }}
+              >
+                Оставить свою
+              </Button>
+            }
           />
-          <BlockDiffList
-            title={`Версия на сервере, ${conflict.server.version}`}
+          <VersionColumn
+            title="Версия на сервере"
+            version={`версия ${conflict.server.version}`}
             entries={diff.server}
+            action={
+              <Button
+                variant="outline"
+                className={styles.fullWidth}
+                onClick={() => {
+                  acceptServerVersion()
+                  close()
+                }}
+              >
+                Принять серверную
+              </Button>
+            }
           />
         </div>
 
         <DialogFooter>
           <Button variant="ghost" onClick={close}>
             Закрыть
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              acceptServerVersion()
-              close()
-            }}
-          >
-            Принять серверную
-          </Button>
-          <Button
-            onClick={() => {
-              overwriteWithLocalVersion()
-              close()
-            }}
-          >
-            Перезаписать своей
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -19,7 +19,7 @@ const WIDTH_OPTIONS: {
   size: number
   Icon: typeof MonitorIcon
 }[] = [
-  { value: "desktop", label: "Десктоп", size: 1080, Icon: MonitorIcon },
+  { value: "desktop", label: "Десктоп", size: 1280, Icon: MonitorIcon },
   { value: "tablet", label: "Планшет", size: 768, Icon: TabletIcon },
 ]
 
@@ -34,29 +34,41 @@ export function PagePreview() {
   return (
     <div className={styles.preview}>
       <header className={styles.header}>
-        <Button variant="outline" onClick={close}>
-          <ArrowLeftIcon />
-          Вернуться в редактор
-        </Button>
+        <div>
+          <Button variant="outline" size="sm" onClick={close}>
+            <ArrowLeftIcon />
+            Вернуться в редактор
+          </Button>
+        </div>
 
-        <ToggleGroup
-          aria-label="Ширина предпросмотра"
-          value={[width]}
-          onValueChange={(value) => {
-            const option = WIDTH_OPTIONS.find((item) => item.value === value[0])
+        <div className={styles.widths}>
+          <ToggleGroup
+            aria-label="Ширина предпросмотра"
+            value={[width]}
+            onValueChange={(value) => {
+              const option = WIDTH_OPTIONS.find(
+                (item) => item.value === value[0]
+              )
 
-            if (option) {
-              setWidth(option.value)
-            }
-          }}
-        >
-          {WIDTH_OPTIONS.map(({ value, label, Icon }) => (
-            <ToggleGroupItem key={value} value={value} variant="outline">
-              <Icon />
-              {label}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
+              if (option) {
+                setWidth(option.value)
+              }
+            }}
+          >
+            {WIDTH_OPTIONS.map(({ value, label, Icon }) => (
+              <ToggleGroupItem
+                key={value}
+                value={value}
+                size="sm"
+                variant="outline"
+              >
+                <Icon />
+                {label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+          <span className={styles.size}>{current?.size} px</span>
+        </div>
 
         <span aria-live="polite" className={styles.status}>
           {SAVE_STATUS_LABEL[status]}
@@ -64,8 +76,10 @@ export function PagePreview() {
       </header>
 
       <div className={styles.viewport}>
-        <div className={styles.page} style={{ maxWidth: current?.size }}>
-          <PageCanvas blocks={blocks} />
+        <div className={styles.frame} style={{ maxWidth: current?.size }}>
+          <div className={styles.page}>
+            <PageCanvas blocks={blocks} />
+          </div>
         </div>
       </div>
     </div>

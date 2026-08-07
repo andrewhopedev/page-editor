@@ -1,7 +1,8 @@
 .image {
   max-width: 100%;
-  height: auto;
+  height: var(--page-image-height);
   border-radius: var(--page-radius);
+  object-fit: var(--page-image-fit);
 }
 
 .placeholder {

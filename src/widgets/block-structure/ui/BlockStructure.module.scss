@@ -6,13 +6,16 @@
 }
 
 .title {
-  margin-bottom: 0.75rem;
+  max-width: 44rem;
+  margin: 0 auto 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25rem;
 }
 
 .empty {
+  max-width: 44rem;
+  margin: 0 auto;
   padding: 1.5rem;
   border: 1px dashed var(--border);
   border-radius: var(--radius);
@@ -24,7 +27,9 @@
 
 .list {
   display: flex;
+  max-width: 44rem;
   flex-direction: column;
+  margin: 0 auto;
   gap: 0.5rem;
 }
 
@@ -32,9 +37,17 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--card);
+  transition:
+    border-color 0.12s,
+    box-shadow 0.12s;
+
+  &:hover {
+    border-color: color-mix(in oklab, var(--primary) 40%, var(--border));
+  }
 }
 
-.cardSelected {
+.cardSelected,
+.cardSelected:hover {
   border-color: var(--primary);
   box-shadow: 0 0 0 1px var(--primary);
 }

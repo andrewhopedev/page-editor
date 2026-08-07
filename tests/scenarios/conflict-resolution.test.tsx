@@ -61,7 +61,7 @@ describe("version conflict", () => {
   it("forces the local version onto the server when asked to overwrite", async () => {
     const user = await editIntoConflict()
 
-    await user.click(screen.getByRole("button", { name: "Перезаписать своей" }))
+    await user.click(screen.getByRole("button", { name: "Оставить свою" }))
     await screen.findByText("Сохранено", undefined, { timeout: 3000 })
 
     const saved = await mockServer.getPage()

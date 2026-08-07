@@ -9,5 +9,8 @@
   display: grid;
   min-height: 0;
   flex: 1;
-  grid-template-columns: 220px minmax(0, 1fr) 320px;
+  grid-template-columns:
+    minmax(240px, 22%)
+    minmax(0, 1fr)
+    minmax(320px, 25%);
 }

@@ -9,7 +9,7 @@ describe("history", () => {
 
     expect(blockTitles()).toHaveLength(3)
 
-    await user.click(screen.getByRole("button", { name: "Кнопка" }))
+    await user.click(screen.getByRole("button", { name: /^Кнопка/ }))
     expect(blockTitles()).toHaveLength(4)
 
     await user.click(screen.getByRole("button", { name: "Отменить" }))
@@ -22,12 +22,12 @@ describe("history", () => {
   it("drops the redo branch once a new change is made after undo", async () => {
     const user = await renderEditor()
 
-    await user.click(screen.getByRole("button", { name: "Кнопка" }))
+    await user.click(screen.getByRole("button", { name: /^Кнопка/ }))
     await user.click(screen.getByRole("button", { name: "Отменить" }))
 
     expect(screen.getByRole("button", { name: "Повторить" })).toBeEnabled()
 
-    await user.click(screen.getByRole("button", { name: "Изображение" }))
+    await user.click(screen.getByRole("button", { name: /^Изображение/ }))
 
     expect(screen.getByRole("button", { name: "Повторить" })).toBeDisabled()
     expect(blockTitles()).toEqual([
@@ -41,7 +41,7 @@ describe("history", () => {
   it("does not put block selection into the history", async () => {
     const user = await renderEditor()
 
-    await user.click(screen.getByRole("button", { name: "Кнопка" }))
+    await user.click(screen.getByRole("button", { name: /^Кнопка/ }))
 
     await user.click(screen.getByRole("button", { name: "1. Текст" }))
     await user.click(screen.getByRole("button", { name: "2. Изображение" }))

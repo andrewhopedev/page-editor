@@ -1,7 +1,14 @@
-import { EyeIcon, Redo2Icon, Undo2Icon } from "lucide-react"
+import {
+  EyeIcon,
+  Loader2Icon,
+  PanelsTopLeftIcon,
+  Redo2Icon,
+  Undo2Icon,
+} from "lucide-react"
 
 import {
   SAVE_STATUS_LABEL,
+  type SaveStatus,
   selectCanRedo,
   selectCanUndo,
   useDocumentStore,
@@ -10,10 +17,18 @@ import {
 import { useConflictDialogStore } from "@/features/conflict-resolution"
 import { documentSync } from "@/features/document-sync"
 import { usePreviewModeStore } from "@/features/preview-mode"
+import { Badge } from "@/shared/ui/badge"
 import { Button } from "@/shared/ui/button"
-import { Separator } from "@/shared/ui/separator"
 
 import styles from "./EditorToolbar.module.scss"
+
+const STATUS_STYLE: Record<Exclude<SaveStatus, "idle">, string> = {
+  dirty: styles.dirty,
+  saving: styles.saving,
+  saved: styles.saved,
+  error: styles.error,
+  conflict: styles.conflict,
+}
 
 export function EditorToolbar() {
   const canUndo = useDocumentStore(selectCanUndo)
@@ -26,31 +41,39 @@ export function EditorToolbar() {
 
   return (
     <header className={styles.toolbar}>
-      <span className={styles.title}>Редактор страницы</span>
+      <span className={styles.brand}>
+        <PanelsTopLeftIcon size={16} className={styles.brandIcon} />
+        Редактор страницы
+      </span>
 
-      <Button
-        variant="outline"
-        size="icon"
-        aria-label="Отменить"
-        disabled={!canUndo}
-        onClick={undo}
-      >
-        <Undo2Icon />
-      </Button>
-      <Button
-        variant="outline"
-        size="icon"
-        aria-label="Повторить"
-        disabled={!canRedo}
-        onClick={redo}
-      >
-        <Redo2Icon />
-      </Button>
-
-      <Separator orientation="vertical" className={styles.separator} />
+      <div className={styles.group}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Отменить"
+          disabled={!canUndo}
+          onClick={undo}
+        >
+          <Undo2Icon />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Повторить"
+          disabled={!canRedo}
+          onClick={redo}
+        >
+          <Redo2Icon />
+        </Button>
+      </div>
 
       <span aria-live="polite" className={styles.status}>
-        {SAVE_STATUS_LABEL[status]}
+        {status !== "idle" && (
+          <Badge variant="outline" className={STATUS_STYLE[status]}>
+            {status === "saving" && <Loader2Icon className={styles.spinner} />}
+            {SAVE_STATUS_LABEL[status]}
+          </Badge>
+        )}
       </span>
 
       {status === "error" && (

@@ -1,3 +1,5 @@
+import { MousePointerSquareDashedIcon } from "lucide-react"
+
 import { BLOCK_TYPE_LABEL, type PageBlock } from "@/entities/page-block"
 import { selectBlocks, useDocumentStore } from "@/entities/page-document"
 import { updateBlock } from "@/features/block-editing"
@@ -102,8 +104,9 @@ export function BlockInspector() {
   if (!block) {
     return (
       <aside className={styles.blank}>
+        <MousePointerSquareDashedIcon size={28} className={styles.blankIcon} />
         <p className={styles.hint}>
-          Выберите блок, чтобы изменить его настройки.
+          Выберите блок в списке, чтобы изменить его настройки.
         </p>
       </aside>
     )
@@ -113,8 +116,15 @@ export function BlockInspector() {
     <aside className={styles.panel}>
       <h2 className={styles.title}>{BLOCK_TYPE_LABEL[block.type]}</h2>
 
-      <TypeFields block={block} />
-      <LayoutFields block={block} />
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Содержимое</h3>
+        <TypeFields block={block} />
+      </section>
+
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Оформление</h3>
+        <LayoutFields block={block} />
+      </section>
     </aside>
   )
 }

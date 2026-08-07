@@ -1,4 +1,4 @@
-import { XIcon } from "lucide-react"
+import { FlaskConicalIcon, XIcon } from "lucide-react"
 import { useState } from "react"
 
 import { mockServer } from "@/entities/page-document"
@@ -21,51 +21,61 @@ export function DevPanel() {
   if (!isOpen) {
     return (
       <Button
-        variant="outline"
-        size="sm"
+        size="lg"
         className={styles.toggle}
         onClick={() => {
           setOpen(true)
         }}
       >
-        Отладка
+        <FlaskConicalIcon />
+        Проверка сценариев
       </Button>
     )
   }
 
   return (
     <aside className={styles.panel}>
-      <h2 className={styles.title}>
-        Отладка
+      <div className={styles.head}>
+        <h2 className={styles.title}>
+          <FlaskConicalIcon size={15} />
+          Проверка сценариев
+        </h2>
         <Button
           variant="ghost"
           size="icon-sm"
-          aria-label="Свернуть панель отладки"
+          aria-label="Свернуть панель"
           onClick={() => {
             setOpen(false)
           }}
         >
           <XIcon />
         </Button>
-      </h2>
+      </div>
 
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => {
-          mockServer.simulateExternalEdit()
-        }}
-      >
-        Изменить документ на сервере
-      </Button>
+      <div className={styles.item}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            mockServer.simulateExternalEdit()
+          }}
+        >
+          Изменить документ на сервере
+        </Button>
+        <p className={styles.hint}>
+          Поднимает версию документа на сервере. Следующее сохранение вернёт 409
+          и откроет диалог конфликта.
+        </p>
+      </div>
 
-      <div className={styles.control}>
-        <span className={styles.caption}>
-          Задержка ответа <span>{latency} мс</span>
+      <div className={styles.item}>
+        <span className={styles.itemHead}>
+          Задержка ответа
+          <span className={styles.value}>{latency} мс</span>
         </span>
         <Slider
           min={0}
-          max={2000}
+          max={3000}
           step={100}
           value={[latency]}
           onValueChange={(value) => {
@@ -75,11 +85,16 @@ export function DevPanel() {
             setLatency(next)
           }}
         />
+        <p className={styles.hint}>
+          Пауза перед ответом сервера. Чем больше, тем дольше держится статус
+          «Сохраняется».
+        </p>
       </div>
 
-      <div className={styles.control}>
-        <span className={styles.caption}>
-          Вероятность ошибки <span>{errorPercent}%</span>
+      <div className={styles.item}>
+        <span className={styles.itemHead}>
+          Вероятность ошибки
+          <span className={styles.value}>{errorPercent}%</span>
         </span>
         <Slider
           min={0}
@@ -93,6 +108,10 @@ export function DevPanel() {
             setErrorPercent(next)
           }}
         />
+        <p className={styles.hint}>
+          Доля запросов, на которые сервер ответит отказом. Даёт статус «Ошибка
+          сохранения» и кнопку повтора.
+        </p>
       </div>
     </aside>
   )

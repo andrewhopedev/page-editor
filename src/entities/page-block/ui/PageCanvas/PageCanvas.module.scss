@@ -6,6 +6,8 @@
   --page-accent-fg: #fff;
   --page-radius: 10px;
   --page-font: system-ui, -apple-system, "Segoe UI", roboto, sans-serif;
+  --page-image-height: auto;
+  --page-image-fit: fill;
 
   display: flex;
   flex-direction: column;
@@ -15,4 +17,9 @@
   font-family: var(--page-font);
   font-size: 16px;
   line-height: 1.5;
+}
+
+.compact {
+  --page-image-height: 7.5rem;
+  --page-image-fit: cover;
 }

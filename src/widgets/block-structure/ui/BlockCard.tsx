@@ -67,7 +67,7 @@ export function BlockCard({ block, position }: BlockCardProps) {
         }}
       >
         <div inert>
-          <PageCanvas blocks={[block]} />
+          <PageCanvas blocks={[block]} compact />
         </div>
       </div>
     </>
