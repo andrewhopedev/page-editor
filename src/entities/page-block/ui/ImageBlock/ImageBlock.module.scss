@@ -1,0 +1,13 @@
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--page-radius);
+}
+
+.placeholder {
+  padding: 32px 40px;
+  border: 1px dashed currentcolor;
+  border-radius: var(--page-radius);
+  color: var(--page-muted);
+  font-size: 14px;
+}

@@ -1,0 +1,18 @@
+.canvas {
+  --page-bg: #fff;
+  --page-fg: #16181d;
+  --page-muted: #767c8a;
+  --page-accent: #2f5cf6;
+  --page-accent-fg: #fff;
+  --page-radius: 10px;
+  --page-font: system-ui, -apple-system, "Segoe UI", roboto, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: var(--page-bg);
+  color: var(--page-fg);
+  font-family: var(--page-font);
+  font-size: 16px;
+  line-height: 1.5;
+}
