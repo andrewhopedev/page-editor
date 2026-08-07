@@ -3,6 +3,7 @@ import { ImageIcon, MousePointerClickIcon, TypeIcon } from "lucide-react"
 import { BLOCK_TYPE_LABEL, type PageBlockType } from "@/entities/page-block"
 import { addBlock } from "@/features/block-editing"
 import { useSelectionStore } from "@/features/block-selection"
+import { Button } from "@/shared/ui/button"
 
 import styles from "./BlockPalette.module.scss"
 
@@ -21,9 +22,9 @@ export function BlockPalette() {
       <h2 className={styles.title}>Добавить блок</h2>
 
       {PALETTE.map(({ type, hint, Icon }) => (
-        <button
+        <Button
           key={type}
-          type="button"
+          variant="outline"
           className={styles.item}
           onClick={() => {
             select(addBlock(type).id)
@@ -36,7 +37,7 @@ export function BlockPalette() {
             <span className={styles.name}>{BLOCK_TYPE_LABEL[type]}</span>
             <span className={styles.hint}>{hint}</span>
           </span>
-        </button>
+        </Button>
       ))}
     </aside>
   )

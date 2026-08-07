@@ -6,6 +6,7 @@ import { updateBlock } from "@/features/block-editing"
 import { useSelectionStore } from "@/features/block-selection"
 import { assertNever } from "@/shared/lib/assertNever"
 import { Input } from "@/shared/ui/input"
+import { Separator } from "@/shared/ui/separator"
 import { Textarea } from "@/shared/ui/textarea"
 
 import { Field } from "./Field"
@@ -118,11 +119,13 @@ export function BlockInspector() {
 
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Содержимое</h3>
+        <Separator />
         <TypeFields block={block} />
       </section>
 
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Оформление</h3>
+        <Separator />
         <LayoutFields block={block} />
       </section>
     </aside>

@@ -1,5 +1,7 @@
 import type { ReactNode } from "react"
 
+import { Label } from "@/shared/ui/label"
+
 import styles from "./inspector.module.scss"
 
 interface FieldProps {
@@ -9,9 +11,9 @@ interface FieldProps {
 
 export function Field({ label, children }: FieldProps) {
   return (
-    <label className={styles.field}>
+    <Label className={styles.field}>
       <span className={styles.caption}>{label}</span>
       {children}
-    </label>
+    </Label>
   )
 }

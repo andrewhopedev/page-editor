@@ -3,6 +3,7 @@ import { useState } from "react"
 
 import { mockServer } from "@/entities/page-document"
 import { Button } from "@/shared/ui/button"
+import { Separator } from "@/shared/ui/separator"
 import { Slider } from "@/shared/ui/slider"
 
 import styles from "./DevPanel.module.scss"
@@ -52,6 +53,8 @@ export function DevPanel() {
         </Button>
       </div>
 
+      <Separator />
+
       <div className={styles.item}>
         <Button
           variant="outline"
@@ -67,6 +70,8 @@ export function DevPanel() {
           и откроет диалог конфликта.
         </p>
       </div>
+
+      <Separator />
 
       <div className={styles.item}>
         <span className={styles.itemHead}>
@@ -90,6 +95,8 @@ export function DevPanel() {
           «Сохраняется».
         </p>
       </div>
+
+      <Separator />
 
       <div className={styles.item}>
         <span className={styles.itemHead}>
