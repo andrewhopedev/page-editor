@@ -1,5 +1,7 @@
 import type { ReactNode } from "react"
 
+import styles from "./inspector.module.scss"
+
 interface FieldProps {
   label: string
   children: ReactNode
@@ -7,8 +9,8 @@ interface FieldProps {
 
 export function Field({ label, children }: FieldProps) {
   return (
-    <label className="grid gap-1.5">
-      <span className="text-xs text-muted-foreground">{label}</span>
+    <label className={styles.field}>
+      <span className={styles.caption}>{label}</span>
       {children}
     </label>
   )

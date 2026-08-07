@@ -9,6 +9,7 @@ import { Textarea } from "@/shared/ui/textarea"
 import { Field } from "./Field"
 import { LayoutFields } from "./LayoutFields"
 import { endEditingSeries } from "./endEditingSeries"
+import styles from "./inspector.module.scss"
 
 function TypeFields({ block }: { block: PageBlock }) {
   switch (block.type) {
@@ -100,8 +101,8 @@ export function BlockInspector() {
 
   if (!block) {
     return (
-      <aside className="border-l p-4">
-        <p className="text-sm text-muted-foreground">
+      <aside className={styles.blank}>
+        <p className={styles.hint}>
           Выберите блок, чтобы изменить его настройки.
         </p>
       </aside>
@@ -109,8 +110,8 @@ export function BlockInspector() {
   }
 
   return (
-    <aside className="flex flex-col gap-4 overflow-y-auto border-l p-4">
-      <h2 className="text-sm font-medium">{BLOCK_TYPE_LABEL[block.type]}</h2>
+    <aside className={styles.panel}>
+      <h2 className={styles.title}>{BLOCK_TYPE_LABEL[block.type]}</h2>
 
       <TypeFields block={block} />
       <LayoutFields block={block} />

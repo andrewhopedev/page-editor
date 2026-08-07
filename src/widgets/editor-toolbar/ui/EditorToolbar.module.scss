@@ -1,0 +1,29 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+}
+
+.title {
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.separator {
+  height: 1.25rem;
+  margin: 0 0.5rem;
+}
+
+.status {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.preview {
+  margin-left: auto;
+}

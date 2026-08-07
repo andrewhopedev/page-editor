@@ -5,6 +5,8 @@ import { BlockStructure } from "@/widgets/block-structure"
 import { EditorToolbar } from "@/widgets/editor-toolbar"
 import { PagePreview } from "@/widgets/page-preview"
 
+import styles from "./EditorPage.module.scss"
+
 export function EditorPage() {
   const isPreviewOpen = usePreviewModeStore((state) => state.isOpen)
 
@@ -13,10 +15,10 @@ export function EditorPage() {
   }
 
   return (
-    <div className="flex h-svh min-w-[900px] flex-col">
+    <div className={styles.page}>
       <EditorToolbar />
 
-      <div className="grid min-h-0 flex-1 grid-cols-[220px_minmax(0,1fr)_320px]">
+      <div className={styles.columns}>
         <BlockPalette />
         <BlockStructure />
         <BlockInspector />

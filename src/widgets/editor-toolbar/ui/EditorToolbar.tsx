@@ -11,6 +11,8 @@ import { usePreviewModeStore } from "@/features/preview-mode"
 import { Button } from "@/shared/ui/button"
 import { Separator } from "@/shared/ui/separator"
 
+import styles from "./EditorToolbar.module.scss"
+
 export function EditorToolbar() {
   const canUndo = useDocumentStore(selectCanUndo)
   const canRedo = useDocumentStore(selectCanRedo)
@@ -20,8 +22,8 @@ export function EditorToolbar() {
   const openPreview = usePreviewModeStore((state) => state.open)
 
   return (
-    <header className="flex items-center gap-2 border-b px-4 py-2">
-      <span className="mr-2 text-sm font-medium">Редактор страницы</span>
+    <header className={styles.toolbar}>
+      <span className={styles.title}>Редактор страницы</span>
 
       <Button
         variant="outline"
@@ -42,13 +44,17 @@ export function EditorToolbar() {
         <Redo2Icon />
       </Button>
 
-      <Separator orientation="vertical" className="mx-2 h-5" />
+      <Separator orientation="vertical" className={styles.separator} />
 
-      <span aria-live="polite" className="text-sm text-muted-foreground">
+      <span aria-live="polite" className={styles.status}>
         {SAVE_STATUS_LABEL[status]}
       </span>
 
-      <Button variant="outline" className="ml-auto" onClick={openPreview}>
+      <Button
+        variant="outline"
+        className={styles.preview}
+        onClick={openPreview}
+      >
         <EyeIcon />
         Предпросмотр
       </Button>

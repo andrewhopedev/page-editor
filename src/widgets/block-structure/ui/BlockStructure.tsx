@@ -18,6 +18,7 @@ import { useSelectionStore } from "@/features/block-selection"
 import { cn } from "@/shared/lib/cn"
 
 import { BlockCard } from "./BlockCard"
+import styles from "./BlockStructure.module.scss"
 
 export function BlockStructure() {
   const blocks = useDocumentStore(selectBlocks)
@@ -27,11 +28,11 @@ export function BlockStructure() {
   )
 
   return (
-    <section className="min-w-0 overflow-y-auto bg-muted/40 p-4">
-      <h2 className="mb-3 text-sm font-medium">Структура страницы</h2>
+    <section className={styles.structure}>
+      <h2 className={styles.title}>Структура страницы</h2>
 
       {blocks.length === 0 ? (
-        <p className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
+        <p className={styles.empty}>
           Пока пусто. Добавьте первый блок из палитры слева.
         </p>
       ) : (
@@ -49,15 +50,14 @@ export function BlockStructure() {
             items={blocks.map((block) => block.id)}
             strategy={verticalListSortingStrategy}
           >
-            <ul className="flex flex-col gap-2">
+            <ul className={styles.list}>
               {blocks.map((block, index) => (
                 <SortableBlockCard
                   key={block.id}
                   id={block.id}
                   className={cn(
-                    "rounded-lg border bg-card",
-                    block.id === selectedId &&
-                      "border-primary ring-1 ring-primary"
+                    styles.card,
+                    block.id === selectedId && styles.cardSelected
                   )}
                 >
                   <BlockCard block={block} position={index + 1} />

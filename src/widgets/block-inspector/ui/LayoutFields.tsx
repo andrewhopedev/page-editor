@@ -7,6 +7,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group"
 
 import { Field } from "./Field"
 import { endEditingSeries } from "./endEditingSeries"
+import styles from "./inspector.module.scss"
 
 const ALIGN_OPTIONS: {
   value: BlockAlign
@@ -31,8 +32,8 @@ export function LayoutFields({ block }: LayoutFieldsProps) {
 
   return (
     <>
-      <div className="grid gap-1.5">
-        <span className="text-xs text-muted-foreground">Выравнивание</span>
+      <div className={styles.field}>
+        <span className={styles.caption}>Выравнивание</span>
         <ToggleGroup
           aria-label="Выравнивание"
           value={[layout.align]}
@@ -60,7 +61,7 @@ export function LayoutFields({ block }: LayoutFieldsProps) {
         </ToggleGroup>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className={styles.margins}>
         <Field label="Отступ сверху">
           <Input
             type="number"

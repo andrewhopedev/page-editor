@@ -9,6 +9,8 @@ import { duplicateBlock, removeBlock } from "@/features/block-editing"
 import { useSelectionStore } from "@/features/block-selection"
 import { Button } from "@/shared/ui/button"
 
+import styles from "./BlockCard.module.scss"
+
 interface BlockCardProps {
   block: PageBlock
   position: number
@@ -19,15 +21,15 @@ export function BlockCard({ block, position }: BlockCardProps) {
 
   return (
     <>
-      <div className="flex items-center gap-1 pt-2 pr-2">
+      <div className={styles.header}>
         <button
           type="button"
-          className="flex-1 truncate rounded px-1 py-0.5 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className={styles.name}
           onClick={() => {
             select(block.id)
           }}
         >
-          <span className="text-muted-foreground">{position}. </span>
+          <span className={styles.position}>{position}. </span>
           {BLOCK_TYPE_LABEL[block.type]}
         </button>
 
@@ -59,7 +61,7 @@ export function BlockCard({ block, position }: BlockCardProps) {
 
       <div
         role="presentation"
-        className="mt-2 mr-2 mb-2 max-h-32 overflow-hidden rounded-md border px-3"
+        className={styles.preview}
         onClick={() => {
           select(block.id)
         }}

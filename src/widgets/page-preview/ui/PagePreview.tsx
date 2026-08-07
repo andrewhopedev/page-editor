@@ -11,6 +11,8 @@ import { usePreviewModeStore, type PreviewWidth } from "@/features/preview-mode"
 import { Button } from "@/shared/ui/button"
 import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group"
 
+import styles from "./PagePreview.module.scss"
+
 const WIDTH_OPTIONS: {
   value: PreviewWidth
   label: string
@@ -30,8 +32,8 @@ export function PagePreview() {
   const current = WIDTH_OPTIONS.find((option) => option.value === width)
 
   return (
-    <div className="flex h-svh flex-col">
-      <header className="flex items-center gap-3 border-b px-4 py-2">
+    <div className={styles.preview}>
+      <header className={styles.header}>
         <Button variant="outline" onClick={close}>
           <ArrowLeftIcon />
           Вернуться в редактор
@@ -56,19 +58,13 @@ export function PagePreview() {
           ))}
         </ToggleGroup>
 
-        <span
-          aria-live="polite"
-          className="ml-auto text-sm text-muted-foreground"
-        >
+        <span aria-live="polite" className={styles.status}>
           {SAVE_STATUS_LABEL[status]}
         </span>
       </header>
 
-      <div className="flex-1 overflow-y-auto bg-muted p-6">
-        <div
-          className="mx-auto rounded-lg bg-white px-6 shadow-sm"
-          style={{ maxWidth: current?.size }}
-        >
+      <div className={styles.viewport}>
+        <div className={styles.page} style={{ maxWidth: current?.size }}>
           <PageCanvas blocks={blocks} />
         </div>
       </div>

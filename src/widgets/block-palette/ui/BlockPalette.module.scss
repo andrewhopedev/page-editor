@@ -1,0 +1,17 @@
+.palette {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-right: 1px solid var(--border);
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.item {
+  justify-content: flex-start;
+}

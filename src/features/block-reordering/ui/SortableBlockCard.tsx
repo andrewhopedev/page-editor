@@ -5,6 +5,8 @@ import type { ReactNode } from "react"
 
 import { cn } from "@/shared/lib/cn"
 
+import styles from "./SortableBlockCard.module.scss"
+
 interface SortableBlockCardProps {
   id: string
   className?: string
@@ -23,21 +25,13 @@ export function SortableBlockCard({
     <li
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={cn(
-        "flex items-stretch",
-        isDragging && "z-10 opacity-60",
-        className
-      )}
+      className={cn(styles.row, isDragging && styles.dragging, className)}
     >
-      <span
-        aria-hidden="true"
-        className="flex cursor-grab touch-none items-center rounded-l-lg px-1 text-muted-foreground hover:bg-muted active:cursor-grabbing"
-        {...listeners}
-      >
-        <GripVerticalIcon className="size-4" />
+      <span aria-hidden="true" className={styles.grip} {...listeners}>
+        <GripVerticalIcon className={styles.icon} />
       </span>
 
-      <div className="min-w-0 flex-1">{children}</div>
+      <div className={styles.content}>{children}</div>
     </li>
   )
 }
