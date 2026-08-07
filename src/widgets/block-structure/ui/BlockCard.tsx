@@ -7,26 +7,19 @@ import {
 } from "@/entities/page-block"
 import { duplicateBlock, removeBlock } from "@/features/block-editing"
 import { useSelectionStore } from "@/features/block-selection"
-import { cn } from "@/shared/lib/cn"
 import { Button } from "@/shared/ui/button"
 
 interface BlockCardProps {
   block: PageBlock
   position: number
-  isSelected: boolean
 }
 
-export function BlockCard({ block, position, isSelected }: BlockCardProps) {
+export function BlockCard({ block, position }: BlockCardProps) {
   const select = useSelectionStore((state) => state.select)
 
   return (
-    <li
-      className={cn(
-        "rounded-lg border bg-card",
-        isSelected && "border-primary ring-1 ring-primary"
-      )}
-    >
-      <div className="flex items-center gap-1 px-2 pt-2">
+    <>
+      <div className="flex items-center gap-1 pt-2 pr-2">
         <button
           type="button"
           className="flex-1 truncate rounded px-1 py-0.5 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -66,7 +59,7 @@ export function BlockCard({ block, position, isSelected }: BlockCardProps) {
 
       <div
         role="presentation"
-        className="m-2 max-h-32 overflow-hidden rounded-md border px-3"
+        className="mt-2 mr-2 mb-2 max-h-32 overflow-hidden rounded-md border px-3"
         onClick={() => {
           select(block.id)
         }}
@@ -75,6 +68,6 @@ export function BlockCard({ block, position, isSelected }: BlockCardProps) {
           <PageCanvas blocks={[block]} />
         </div>
       </div>
-    </li>
+    </>
   )
 }
