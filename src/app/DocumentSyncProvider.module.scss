@@ -1,0 +1,9 @@
+.loading {
+  display: flex;
+  height: 100svh;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
