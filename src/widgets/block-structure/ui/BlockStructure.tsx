@@ -20,12 +20,13 @@ import { cn } from "@/shared/lib/cn"
 import { BlockCard } from "./BlockCard"
 import styles from "./BlockStructure.module.scss"
 
+const POINTER_SENSOR_OPTIONS = { activationConstraint: { distance: 5 } }
+const DRAG_MODIFIERS = [restrictToVerticalAxis, restrictToParentElement]
+
 export function BlockStructure() {
   const blocks = useDocumentStore(selectBlocks)
   const selectedId = useSelectionStore((state) => state.selectedId)
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
-  )
+  const sensors = useSensors(useSensor(PointerSensor, POINTER_SENSOR_OPTIONS))
 
   return (
     <section className={styles.structure}>
@@ -39,7 +40,7 @@ export function BlockStructure() {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
-          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          modifiers={DRAG_MODIFIERS}
           onDragEnd={({ active, over }) => {
             if (over) {
               reorderBlocks(String(active.id), String(over.id))

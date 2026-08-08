@@ -1,4 +1,5 @@
 import { CopyIcon, Trash2Icon } from "lucide-react"
+import { memo } from "react"
 
 import {
   BLOCK_TYPE_LABEL,
@@ -16,7 +17,10 @@ interface BlockCardProps {
   position: number
 }
 
-export function BlockCard({ block, position }: BlockCardProps) {
+export const BlockCard = memo(function BlockCard({
+  block,
+  position,
+}: BlockCardProps) {
   const select = useSelectionStore((state) => state.select)
 
   return (
@@ -72,4 +76,4 @@ export function BlockCard({ block, position }: BlockCardProps) {
       </div>
     </>
   )
-}
+})

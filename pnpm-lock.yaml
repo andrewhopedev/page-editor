@@ -47,9 +47,6 @@ importers:
       shadcn:
         specifier: ^4.16.2
         version: 4.16.2(typescript@6.0.3)
-      tailwind-merge:
-        specifier: ^3.6.0
-        version: 3.6.0
       tailwindcss:
         specifier: ^4
         version: 4.3.3

@@ -41,6 +41,8 @@ export function ImageBlock({ url, alt, layout }: ImageBlockProps) {
       style={style}
       src={url}
       alt={alt}
+      loading="lazy"
+      decoding="async"
       onError={() => {
         setBrokenUrl(url)
       }}
