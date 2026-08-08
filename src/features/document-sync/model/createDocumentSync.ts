@@ -138,6 +138,7 @@ export function createDocumentSync(api: SaveApi): DocumentSync {
       return () => {
         stopDocument()
         stopSync()
+        cancelTimer()
       }
     },
 
