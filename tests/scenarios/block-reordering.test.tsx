@@ -1,4 +1,4 @@
-import { act, screen } from "@testing-library/react"
+import { act, screen, waitFor } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
 
 import { selectBlocks, useDocumentStore } from "@/entities/page-document"
@@ -16,7 +16,9 @@ describe("block reordering", () => {
 
     const before = currentBlocks()
 
-    reorderBlocks(before[2].id, before[0].id)
+    act(() => {
+      reorderBlocks(before[2].id, before[0].id)
+    })
 
     const after = currentBlocks()
 
@@ -39,7 +41,9 @@ describe("block reordering", () => {
       reorderBlocks(before[2].id, before[0].id)
     })
 
-    expect(blockTitles()).toEqual(["1. Кнопка", "2. Текст", "3. Изображение"])
+    await waitFor(() => {
+      expect(blockTitles()).toEqual(["1. Кнопка", "2. Текст", "3. Изображение"])
+    })
     expect(
       screen.getAllByRole("link", { name: "Оставить заявку" }).length
     ).toBeGreaterThan(0)
@@ -50,7 +54,10 @@ describe("block reordering", () => {
     const user = await renderEditor()
 
     const before = currentBlocks()
-    reorderBlocks(before[2].id, before[0].id)
+
+    act(() => {
+      reorderBlocks(before[2].id, before[0].id)
+    })
 
     await user.click(screen.getByRole("button", { name: "Отменить" }))
 
