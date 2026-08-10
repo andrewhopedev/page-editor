@@ -11,6 +11,19 @@ import { ConflictError, RequestError } from "@/shared/api"
 import { AUTOSAVE_DEBOUNCE_MS } from "@/shared/config"
 
 import { createDocumentSync, type DocumentSync } from "./createDocumentSync"
+import { readDraft } from "./draft"
+
+const storage = new Map<string, string>()
+
+vi.stubGlobal("localStorage", {
+  getItem: (key: string) => storage.get(key) ?? null,
+  setItem: (key: string, value: string) => {
+    storage.set(key, value)
+  },
+  removeItem: (key: string) => {
+    storage.delete(key)
+  },
+})
 
 function textBlock(id: string, text: string): PageBlock {
   return {
@@ -38,6 +51,7 @@ function edit(text: string): void {
 
 beforeEach(() => {
   vi.useFakeTimers()
+  storage.clear()
   savePage.mockReset()
   savePage.mockResolvedValue(serverDocument(2, initial))
 
@@ -121,6 +135,32 @@ describe("document sync", () => {
 
     expect(useSyncStore.getState().savedRevision).toBe(sentRevision)
     expect(useDocumentStore.getState().revision).toBeGreaterThan(sentRevision)
+  })
+
+  it("moves the draft to the returned version while edits are still unsaved", async () => {
+    const pending: ((document: PageDocument) => void)[] = []
+    savePage.mockImplementation(
+      () =>
+        new Promise<PageDocument>((resolve) => {
+          pending.push(resolve)
+        })
+    )
+
+    edit("Первая")
+    await vi.advanceTimersByTimeAsync(AUTOSAVE_DEBOUNCE_MS)
+    expect(readDraft()?.baseVersion).toBe(1)
+
+    edit("Первая и вторая")
+
+    pending[0](serverDocument(2, initial))
+    await vi.advanceTimersByTimeAsync(0)
+
+    expect(readDraft()?.baseVersion).toBe(2)
+
+    pending[1](serverDocument(3, initial))
+    await vi.advanceTimersByTimeAsync(0)
+
+    expect(readDraft()).toBeNull()
   })
 
   it("never applies blocks from the response", async () => {

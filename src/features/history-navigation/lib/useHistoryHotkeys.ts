@@ -9,6 +9,10 @@ export function useHistoryHotkeys(): void {
         return
       }
 
+      if (event.altKey) {
+        return
+      }
+
       if (event.code !== "KeyZ" && event.code !== "KeyY") {
         return
       }

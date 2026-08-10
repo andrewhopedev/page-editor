@@ -30,6 +30,25 @@ function errorMessage(error: unknown): string {
     : "Не удалось сохранить страницу"
 }
 
+/**
+ * Черновик всегда несёт ту версию, на которой основан. После успешного запроса
+ * baseVersion вырос, и если правки к этому моменту продолжились, оставшаяся в
+ * черновике старая версия превратилась бы после перезагрузки в ложный конфликт.
+ */
+function refreshDraftAfterSave(): void {
+  const sync = useSyncStore.getState()
+
+  if (sync.status === "saved") {
+    removeDraft()
+    return
+  }
+
+  writeDraft({
+    blocks: selectBlocks(useDocumentStore.getState()),
+    baseVersion: sync.baseVersion,
+  })
+}
+
 export function createDocumentSync(api: SaveApi): DocumentSync {
   let timer: ReturnType<typeof setTimeout> | null = null
   let inFlight = false
@@ -73,9 +92,7 @@ export function createDocumentSync(api: SaveApi): DocumentSync {
         currentRevision: useDocumentStore.getState().revision,
       })
 
-      if (useSyncStore.getState().status === "saved") {
-        removeDraft()
-      }
+      refreshDraftAfterSave()
     } catch (error) {
       const server = conflictDocument(error)
 
